@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "pedro", "label": "pedro", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "castillo", "label": "castillo", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "libre", "label": "libre", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "presidencia", "label": "presidencia", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "candidato", "label": "candidato", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "rafael", "label": "rafael", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "l\u00f3pez", "label": "l\u00f3pez", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "aliaga", "label": "aliaga", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "per\u00fa", "label": "per\u00fa", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "keiko", "label": "keiko", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "fujimori", "label": "fujimori", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "candidata", "label": "candidata", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "fuerza", "label": "fuerza", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "popular", "label": "popular", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "pr\u00f3xima", "label": "pr\u00f3xima", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "representaci\u00f3n", "label": "representaci\u00f3n", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "nacional", "label": "nacional", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "determinados", "label": "determinados", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "sectores", "label": "sectores", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "ciudadanos", "label": "ciudadanos", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "congresistas", "label": "congresistas", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "virtualmente", "label": "virtualmente", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "electos", "label": "electos", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "dos", "label": "dos", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "virtuales", "label": "virtuales", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "parlamentarios", "label": "parlamentarios", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "decir", "label": "decir", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "vladimir", "label": "vladimir", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cerr\u00f3n", "label": "cerr\u00f3n", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"from": "pedro", "peso": 2, "to": "castillo", "width": 1}, {"from": "pedro", "peso": 2, "to": "libre", "width": 1}, {"from": "pedro", "peso": 2, "to": "presidencia", "width": 1}, {"from": "pedro", "peso": 2, "to": "candidato", "width": 1}, {"from": "castillo", "peso": 2, "to": "candidato", "width": 1}, {"from": "rafael", "peso": 2, "to": "l\u00f3pez", "width": 1}, {"from": "l\u00f3pez", "peso": 2, "to": "aliaga", "width": 1}, {"from": "per\u00fa", "peso": 2, "to": "libre", "width": 1}, {"from": "keiko", "peso": 2, "to": "fujimori", "width": 1}, {"from": "keiko", "peso": 2, "to": "candidata", "width": 1}, {"from": "fujimori", "peso": 2, "to": "fuerza", "width": 1}, {"from": "fuerza", "peso": 2, "to": "popular", "width": 1}, {"from": "pr\u00f3xima", "peso": 2, "to": "representaci\u00f3n", "width": 1}, {"from": "representaci\u00f3n", "peso": 2, "to": "nacional", "width": 1}, {"from": "determinados", "peso": 2, "to": "sectores", "width": 1}, {"from": "sectores", "peso": 2, "to": "ciudadanos", "width": 1}, {"from": "congresistas", "peso": 2, "to": "virtualmente", "width": 1}, {"from": "virtualmente", "peso": 2, "to": "electos", "width": 1}, {"from": "dos", "peso": 2, "to": "virtuales", "width": 1}, {"from": "virtuales", "peso": 2, "to": "parlamentarios", "width": 1}, {"from": "decir", "peso": 2, "to": "vladimir", "width": 1}, {"from": "vladimir", "peso": 2, "to": "cerr\u00f3n", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
